@@ -209,7 +209,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 
 		// Fill event histograms after all cuts
 		vzhist->Fill(vertexz);
-		multiplicity->Fill( Ntroff )
+		multiplicity->Fill( Ntroff );
         if(posPhoton) multposplus->Fill( Ntroff ); 
         if(!posPhoton) multposminus->Fill( Ntroff ); 
         if( triggers[4] || triggers[5] ) { hZDCPlusZDCOr->Fill( zdcSumPlus ); hZDCMinusZDCOr->Fill( zdcSumMinus );}
@@ -242,7 +242,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 			hist_reco_trk->Fill(x_reco_trk);
 
 			// Track efficiency correction -> future usage
-			// double trk_weight = 1.0;
+			double trk_weight = 1.0;
 			// trk_weight = trk_weight*getTrkCorrWeight(trkeff_file, trkpt->at(j), trketa->at(j));
 			// hist_reco_trk_corr->Fill(x_reco_trk,trk_weight);
 			
@@ -253,7 +253,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
      		TrackFourVector.SetPt(trkPt);  
      		
      		tracks_reco.push_back(TrackFourVector);
-			track_charge_reco.push_back(trkcharge->at(j)); 
+			track_charge_reco.push_back(trkCharge); 
 			track_weight_reco.push_back(trk_weight); 
 
 		} // End loop over tracks
@@ -264,7 +264,6 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 			track_4vector.push_back(tracks_reco); // save 4 vector for mixing
 			track_charge_vector.push_back(track_charge_reco); // save charge vector for mixing
 			track_weights_vector.push_back(track_weight_reco); // save eff weight vector for mixing
-			centrality_vector.push_back(cent); // save centrality vector for mixing
 			multiplicity_vector.push_back(Ntroff); // save multiplicity vector for mixing
 			vz_vector.push_back(vertexz); // save vz vector for mixing
 			phpos_vector.push_back((int) posPhoton);// save photon side vector for mixing
@@ -278,7 +277,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	
 	// do the mixing after the event selections
 	if(do_mixing) cout << "Time for mixing" << endl;
-	if(do_mixing) MixEvents(mincentormult, Nmixevents, centrality_vector, multiplicity_vector, vz_vector, phpos_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
+	if(do_mixing) MixEvents(mincentormult, Nmixevents, multiplicity_vector, vz_vector, phpos_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
 	
 	// Output file name
 	cout << endl;

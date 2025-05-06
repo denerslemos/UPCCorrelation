@@ -176,13 +176,113 @@ const double CoulombOS(const double &q, int systematic){
 }
 
 /*
+Find the eta gap and total energy
+--> Arguments
+syst: for systematics
+PF info: pT, Eta, E and ID
+isPrimary?
+etaGapPos: eta gap positive
+etaGapNeg: eta gap negative
+2D histograms for multiple PF particles
+*/
+void etagaps(int syst, double hfthreshold, double &ETSum, int &numPosHFClusters, int &numNegHFClusters, std::vector<float>* pfPt, std::vector<float>* pfEta, std::vector<float>* pfE, std::vector<int>* pfID, std::vector<bool>* isPrimary, double &etaGapPos, double &etaGapNeg, TH2D* h_h,  TH2D* h_e, TH2D* h_mu, TH2D* h_gamma, TH2D* h_h0, TH2D* h_HFhad, TH2D* h_HFem){
+
+	  int numPF = pfID->size();	  
+      vector<float> pfEtaPosVector;
+      vector<float> pfEtaNegVector;
+      for( int iPF = 0; iPF < numPF; iPF++ ) {
+        double Et = pfE->at( iPF )/TMath::CosH( pfEta->at( iPF ) );
+
+		// Find et sum on Pb going side
+		if( pfID->at( iPF ) == 6 || pfID->at( iPF ) == 7 ){
+        	if( ((!posPhoton && pfEta->at( iPF ) > 0) || (posPhoton && pfEta->at( iPF ) < 0)) && pfE->at( iPF ) > 3.0 ) ETSum += Et;
+			if( pfE->at( iPF ) > hfthreshold && pfEta->at( iPF ) > 0 ) numPosHFClusters++;
+	        if( pfE->at( iPF ) > hfthreshold && pfEta->at( iPF ) < 0 ) numNegHFClusters++;
+		}
+		
+        if( pfID->at( iPF ) == 1 ) {      //h+/-
+          h_h->Fill( pfEta->at( iPF ), pfPt->at( iPF ) );
+        }else if( pfID->at( iPF ) == 2 ) { //e
+          h_e->Fill( pfEta->at( iPF ), pfPt->at( iPF ) );
+        }else if( pfID->at( iPF ) == 3 ) { //mu
+          h_mu->Fill( pfEta->at( iPF ), pfPt->at( iPF ) );
+        }else if( pfID->at( iPF ) == 4 ) { //gamma
+          h_gamma->Fill( pfEta->at( iPF ), Et );
+        }else if( pfID->at( iPF ) == 5 ) { //h0
+          h_h0->Fill( pfEta->at( iPF ), Et );
+        }else if( pfID->at( iPF ) == 6 ) { //Had HF
+          h_HFhad->Fill( pfEta->at( iPF ), pfE->at( iPF ) ); 
+        }else if( pfID->at( iPF ) == 7 ) { //EM HF
+          h_HFem->Fill( pfEta->at( iPF ), pfE->at( iPF ) ); }
+        if(syst == 15){ 
+	        //Lower threshold cuts
+    	    if( ( pfID->at( iPF ) == 1 && pfPt->at( iPF ) < 0.3 && isPrimary->at( iPF ) ) || //h+/-
+        	    ( pfID->at( iPF ) == 2 && pfPt->at( iPF ) < 1.0 ) || //e
+     	        ( pfID->at( iPF ) == 3 && pfPt->at( iPF ) < 0.5 ) || //mu
+     	        ( pfID->at( iPF ) == 4 && Et < 0.5 ) || //gamma
+     	        ( pfID->at( iPF ) == 5 && Et < 2.0 && fabs( pfEta->at( iPF ) ) < 1.4 ) || //h0 barrel
+     	        ( pfID->at( iPF ) == 5 && Et < 0.5 && fabs( pfEta->at( iPF ) ) > 1.4 ) || //h0 endcaps
+      	        ( pfID->at( iPF ) == 6 && pfE->at( iPF ) < 2.0 ) || //Had HF
+     	        ( pfID->at( iPF ) == 7 && pfE->at( iPF ) < 2.0 ) ) {  //EM HF
+     	     		continue; }
+         }else if (syst == 16){
+	        //High threshold cuts
+    	    if( ( pfID->at( iPF ) == 1 && pfPt->at( iPF ) < 0.5 && isPrimary->at( iPF ) ) || //h+/-
+            	( pfID->at( iPF ) == 2 && pfPt->at( iPF ) < 3.0 ) || //e
+            	( pfID->at( iPF ) == 3 && pfPt->at( iPF ) < 2.0 ) || //mu
+            	( pfID->at( iPF ) == 4 && Et < 1.5 ) || //gamma
+            	( pfID->at( iPF ) == 5 && Et < 4.0 && fabs( pfEta->at( iPF ) ) < 1.4 ) || //h0 barrel
+            	( pfID->at( iPF ) == 5 && Et < 1.5 && fabs( pfEta->at( iPF ) ) > 1.4 ) || //h0 endcaps
+            	( pfID->at( iPF ) == 6 && pfE->at( iPF ) < 4.0 ) || //Had HF
+           		( pfID->at( iPF ) == 7 && pfE->at( iPF ) < 4.0 ) ) {  //EM HF
+          			continue; }
+         }else{
+	        //Default cuts
+    	    if( ( pfID->at( iPF ) == 1 && pfPt->at( iPF ) < 0.4 ) || //h+/-
+        	    ( pfID->at( iPF ) == 2 && pfPt->at( iPF ) < 2.0 ) || //e
+            	( pfID->at( iPF ) == 3 && pfPt->at( iPF ) < 1.0 ) || //mu
+            	( pfID->at( iPF ) == 4 && Et < 1.0 ) || //gamma
+            	( pfID->at( iPF ) == 5 && Et < 3.0 && fabs( pfEta->at( iPF ) ) < 1.4 ) || //h0 barrel
+            	( pfID->at( iPF ) == 5 && Et < 1.0 && fabs( pfEta->at( iPF ) ) > 1.4 ) || //h0 endcaps
+            	( pfID->at( iPF ) == 6 && pfE->at( iPF ) < 3.0 ) || //Had HF
+            	( pfID->at( iPF ) == 7 && pfE->at( iPF ) < 3.0 ) ) {  //EM HF
+		          	continue; }
+		}
+        if( pfEta->at( iPF ) > 0 ){ pfEtaPosVector.push_back( pfEta->at( iPF ) );
+        }else { pfEtaNegVector.push_back( pfEta->at( iPF ) ); }
+
+      }
+
+      pfEtaPosVector.push_back( 0.0 );//Add middle of detector as a particle
+      pfEtaPosVector.push_back( 5.3 );//Add edge of detector as a particle
+      sort( pfEtaPosVector.begin(), pfEtaPosVector.end() );
+      double etaGapPos = 0;
+      for( int i = 1; i < pfEtaPosVector.size(); i++ ) {
+        double deltaEta = fabs( pfEtaPosVector[i] - pfEtaPosVector[i - 1] );
+        if( deltaEta > 0.5 ) etaGapPos += deltaEta;
+      }
+      pfEtaPosVector.clear();
+
+      pfEtaNegVector.push_back( 0.0 );//Add middle of detector as a particle
+      pfEtaNegVector.push_back( -5.3 );//Add edge of detector as a particle
+      sort( pfEtaNegVector.begin(), pfEtaNegVector.end() );
+      for( int i = 1; i < pfEtaNegVector.size(); i++ ){
+        double deltaEta = fabs( pfEtaNegVector[i] - pfEtaNegVector[i - 1] );
+        if( deltaEta > 0.5 ) etaGapNeg += deltaEta;
+      }
+      pfEtaNegVector.clear();
+
+} 
+
+
+/*
 Measure the 2 particle correlation
 --> Arguments
 tracks: vector with track informations
 tracks_charge: vector with track charge informations
 tracks_weight: vector with track efficiency informations
 */
-void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std::vector<int> tracks_charge, std::vector<double> tracks_weight, TH1D* pairmass_samesign, TH2D* costhetadpt_samesign, THnSparse* histo_2pcorr_samesign,  THnSparse* histo_2pcorr_samesign_inverted,  THnSparse* histo_2pcorr_samesign_rotated, THnSparse* histo_2pcorr_samesign3D,  THnSparse* histo_2pcorr_samesign3D_inverted,  THnSparse* histo_2pcorr_samesign3D_rotated, TH1D* pairmass_oppsign, TH2D* costhetadpt_oppsign, THnSparse* histo_2pcorr_oppsign, THnSparse* histo_2pcorr_oppsign_inverted, THnSparse* histo_2pcorr_oppsign_rotated, THnSparse* histo_2pcorr_oppsign3D, THnSparse* histo_2pcorr_oppsign3D_inverted, THnSparse* histo_2pcorr_oppsign3D_rotated, int cent, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic){
+void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std::vector<int> tracks_charge, std::vector<double> tracks_weight, TH1D* pairmass_samesign, TH2D* costhetadpt_samesign, THnSparse* histo_2pcorr_samesign,  THnSparse* histo_2pcorr_samesign_inverted,  THnSparse* histo_2pcorr_samesign_rotated, THnSparse* histo_2pcorr_samesign3D,  THnSparse* histo_2pcorr_samesign3D_inverted,  THnSparse* histo_2pcorr_samesign3D_rotated, TH1D* pairmass_oppsign, TH2D* costhetadpt_oppsign, THnSparse* histo_2pcorr_oppsign, THnSparse* histo_2pcorr_oppsign_inverted, THnSparse* histo_2pcorr_oppsign_rotated, THnSparse* histo_2pcorr_oppsign3D, THnSparse* histo_2pcorr_oppsign3D_inverted, THnSparse* histo_2pcorr_oppsign3D_rotated, int cent, int posPhoton, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic){
 	// get correlation histograms
 	for (int ipair = 0; ipair < (tracks.size()*tracks.size()); ipair++){ // start loop over tracks
 	
@@ -209,9 +309,9 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		double qinv = GetQ(tracks[a],tracks[b]);
 		double qinv_inverted = GetQ(tracks[a], trackb_inverted);
 		double qinv_rotated = GetQ(tracks[a], trackb_rotated);
-		double x_2pc_hbt[3]={qinv, kt, (double)cent}; 
-		double x_2pc_hbt_inv[3]={qinv_inverted, kt_inverted, (double)cent}; 
-		double x_2pc_hbt_rot[3]={qinv_rotated, kt_rotated, (double)cent}; 
+		double x_2pc_hbt[4]={qinv, kt, (double)cent, (double) posPhoton}; 
+		double x_2pc_hbt_inv[4]={qinv_inverted, kt_inverted, (double)cent, (double) posPhoton}; 
+		double x_2pc_hbt_rot[4]={qinv_rotated, kt_rotated, (double)cent, (double) posPhoton}; 
 
 		double qlong = GetQlongLCMS(tracks[a],tracks[b]);
 		double qlong_inverted = GetQlongLCMS(tracks[a], trackb_inverted);
@@ -222,9 +322,9 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		double qside = GetQside(tracks[a],tracks[b]);
 		double qside_inverted = GetQside(tracks[a], trackb_inverted);
 		double qside_rotated = GetQside(tracks[a], trackb_rotated);
-		double x_2pc_hbt_3D[5]={qlong, qout, qside, kt, (double)cent}; 
-		double x_2pc_hbt_3D_inv[5]={qlong_inverted, qout_inverted, qside_inverted, kt_inverted, (double)cent}; 
-		double x_2pc_hbt_3D_rot[5]={qlong_rotated, qout_rotated, qside_rotated, kt_rotated, (double)cent}; 
+		double x_2pc_hbt_3D[6]={qlong, qout, qside, kt, (double)cent, (double) posPhoton}; 
+		double x_2pc_hbt_3D_inv[6]={qlong_inverted, qout_inverted, qside_inverted, kt_inverted, (double)cent, (double) posPhoton}; 
+		double x_2pc_hbt_3D_rot[6]={qlong_rotated, qout_rotated, qside_rotated, kt_rotated, (double)cent, (double) posPhoton}; 
 			
 		double coulomb_ss = 1.0;
 		double coulomb_os = 1.0;

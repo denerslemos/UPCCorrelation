@@ -3,7 +3,7 @@
 #define coscutmix 0.99996
 #define dptcutmix 0.04
 
-void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_centrality, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, float vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
+void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, float vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
 
    int aux_n_evts = (int) vtx_z_vec.size(); // total number of events
    int tenper = round(0.1*aux_n_evts);   
@@ -59,8 +59,8 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 			double qlong = GetQlongLCMS(Trk_nevt_trg_vec[imix],Track_nevt_ass_vec[iimix]);
 			double qout = GetQout(Trk_nevt_trg_vec[imix],Track_nevt_ass_vec[iimix]);
 			double qside = GetQside(Trk_nevt_trg_vec[imix],Track_nevt_ass_vec[iimix]);
-			double x_2pc_hbt[4]={qinv, kt, (double)ev_centrality[nevt_trg], (double) ev_phpos[nevt_trg]}; 
-			double x_2pc_hbt_3D[6]={qlong, qout, qside, kt, (double)ev_centrality[nevt_trg], (double) ev_phpos[nevt_trg]}; 
+			double x_2pc_hbt[4]={qinv, kt, (double)ev_multiplicity[nevt_trg], (double) ev_phpos[nevt_trg]}; 
+			double x_2pc_hbt_3D[6]={qlong, qout, qside, kt, (double)ev_multiplicity[nevt_trg], (double) ev_phpos[nevt_trg]}; 
 			double coulomb_ss = 1.0;
 			double coulomb_os = 1.0;
 			if(dogamovcorrection){
