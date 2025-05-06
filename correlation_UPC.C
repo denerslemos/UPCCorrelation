@@ -188,7 +188,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
         double etaGapNeg = 0;
         double ETSum = 0;
         int numNegHFClusters=0, numPosHFClusters=0;
-		etagaps(syst, HFThreshold, ETSum, numNegHFClusters, numPosHFClusters, pfPt, pfEta, pfE, pfID, isPrimary, etaGapPos, etaGapNeg, h_h, h_e, h_mu, h_gamma, h_h0, h_HFhad, h_HFem);
+		etagaps(syst, HFThreshold, ETSum, numNegHFClusters, numPosHFClusters, pfPt, pfEta, pfE, pfID, isPrimary, etaGapPos, etaGapNeg, h_h, h_e, h_mu, h_gamma, h_h0, h_HFhad, h_HFem, posPhoton);
 
         double sumGapCut = 3.5;
         if( Ntroff > 30 ) sumGapCut = 3.0;

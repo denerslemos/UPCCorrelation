@@ -185,7 +185,7 @@ etaGapPos: eta gap positive
 etaGapNeg: eta gap negative
 2D histograms for multiple PF particles
 */
-void etagaps(int syst, double hfthreshold, double &ETSum, int &numPosHFClusters, int &numNegHFClusters, std::vector<float>* pfPt, std::vector<float>* pfEta, std::vector<float>* pfE, std::vector<int>* pfID, std::vector<bool>* isPrimary, double &etaGapPos, double &etaGapNeg, TH2D* h_h,  TH2D* h_e, TH2D* h_mu, TH2D* h_gamma, TH2D* h_h0, TH2D* h_HFhad, TH2D* h_HFem){
+void etagaps(int syst, double hfthreshold, double &ETSum, int &numPosHFClusters, int &numNegHFClusters, std::vector<float>* pfPt, std::vector<float>* pfEta, std::vector<float>* pfE, std::vector<int>* pfID, std::vector<bool>* isPrimary, double &etaGapPos, double &etaGapNeg, TH2D* h_h,  TH2D* h_e, TH2D* h_mu, TH2D* h_gamma, TH2D* h_h0, TH2D* h_HFhad, TH2D* h_HFem, bool posPhoton){
 
 	  int numPF = pfID->size();	  
       vector<float> pfEtaPosVector;
@@ -256,7 +256,6 @@ void etagaps(int syst, double hfthreshold, double &ETSum, int &numPosHFClusters,
       pfEtaPosVector.push_back( 0.0 );//Add middle of detector as a particle
       pfEtaPosVector.push_back( 5.3 );//Add edge of detector as a particle
       sort( pfEtaPosVector.begin(), pfEtaPosVector.end() );
-      double etaGapPos = 0;
       for( int i = 1; i < pfEtaPosVector.size(); i++ ) {
         double deltaEta = fabs( pfEtaPosVector[i] - pfEtaPosVector[i - 1] );
         if( deltaEta > 0.5 ) etaGapPos += deltaEta;
