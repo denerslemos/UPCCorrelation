@@ -230,7 +230,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		for (int j = 0; j < numPF; j++){  // Loop over PF Candidates
 
  	        	double trkEta = pfEta->at(j);
-     	        	if( posPhoton ) trkEta = -trkEta;
+     	        	//if( posPhoton ) trkEta = -trkEta;
  	        	double trkPt = pfPt->at(j);
  	        	double trkPhi = pfPhi->at(j);
  	        	int trkCharge = 1; // for future usage 
