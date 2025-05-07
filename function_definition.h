@@ -4,46 +4,6 @@
 #define pimass 0.1396
 
 /*
-Find Ntrk offline -> updated for all systems (and easy to update for future systems)
-The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
---> Arguments
-size: track collection size per event
-pt: track pT
-eta: track eta
-charge: track charge
-hp: track high purity workflow
-pterr: track pT uncertainty
-dcaxy: track DCA in the transverse plane
-dcaxyerr: track DCA in the transverse plane uncertainty
-dcaz: track DCA in the longitudinal plane
-dcazerr: track DCA in the longitudinal plane uncertainty
-*/
-int get_Ntrkoff(std::vector<float>* pt,
-                std::vector<float>* eta,
-                std::vector<bool>* hp,
-                std::vector<float>* pterr,
-                std::vector<float>* dcaxy,
-                std::vector<float>* dcaxyerr,
-                std::vector<float>* dcaz,
-                std::vector<float>* dcazerr) {
-    
-    int Ntrk_off = 0;
-    int size = pt->size();
-
-    for (int ii = 0; ii < size; ++ii) {
-        if (pt->at(ii) <= 0.3) continue;
-        if (std::fabs(eta->at(ii)) > 2.4) continue;
-        if (!hp->at(ii)) continue;
-        if (pterr->at(ii) / pt->at(ii) >= 0.1) continue;
-        if (std::fabs(dcaxy->at(ii) / dcaxyerr->at(ii)) >= 3.0) continue;
-        if (std::fabs(dcaz->at(ii) / dcazerr->at(ii)) >= 3.0) continue;
-        Ntrk_off = Ntrk_off+1;
-    }
-
-    return Ntrk_off;
-}
-
-/*
 Calculate q invariant
 --> Arguments
 p1: particle 1 4-vector
@@ -195,9 +155,9 @@ void etagaps(int syst, double hfthreshold, double &ETSum, int &numPosHFClusters,
 
 		// Find et sum on Pb going side
 		if( pfID->at( iPF ) == 6 || pfID->at( iPF ) == 7 ){
-        	if( ((!posPhoton && pfEta->at( iPF ) > 0) || (posPhoton && pfEta->at( iPF ) < 0)) && pfE->at( iPF ) > 3.0 ) ETSum += Et;
+        		if( ((!posPhoton && pfEta->at( iPF ) > 0) || (posPhoton && pfEta->at( iPF ) < 0)) && pfE->at( iPF ) > 3.0 ) ETSum += Et;
 			if( pfE->at( iPF ) > hfthreshold && pfEta->at( iPF ) > 0 ) numPosHFClusters++;
-	        if( pfE->at( iPF ) > hfthreshold && pfEta->at( iPF ) < 0 ) numNegHFClusters++;
+		        if( pfE->at( iPF ) > hfthreshold && pfEta->at( iPF ) < 0 ) numNegHFClusters++;
 		}
 		
         if( pfID->at( iPF ) == 1 ) {      //h+/-
