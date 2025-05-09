@@ -179,8 +179,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 
 		// HF threshold
 		double HFThreshold = 0.0; // have to decide the nominal
-		//if(syst == 12 ) 
-		HFThreshold = 4.0;
+		if(syst == 12 ) HFThreshold = 4.0;
 		if(syst == 13 ) HFThreshold = 6.0;
 		if(syst == 14 ) HFThreshold = 8.0;
 
@@ -190,8 +189,8 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
         	double ETSum = 0;
         	int numNegHFClusters=0, numPosHFClusters=0;
 		etagaps(syst, HFThreshold, ETSum, numNegHFClusters, numPosHFClusters, pfPt, pfEta, pfE, pfID, isPrimary, etaGapPos, etaGapNeg, h_h, h_e, h_mu, h_gamma, h_h0, h_HFhad, h_HFem, posPhoton);
-		//cout << "etaGapPos: " << etaGapPos << " ; etaGapNeg: " << etaGapNeg << "; ETSum: " << ETSum << " ; numNegHFClusters: " << numNegHFClusters << "; numPosHFClusters: " << numPosHFClusters << endl;
-		if( HFThreshold > 0.0 && (numNegHFClusters < 1 || numPosHFClusters < 1) ) continue;
+
+		if( HFThreshold > 0.0 && (numNegHFClusters < 1 || numPosHFClusters < 1) ) continue; // HF Coincidence
 		Nevents->Fill(4);
 		double sumGapCut = 3.5;
         	if( Ntroff > 30 ) sumGapCut = 3.0;

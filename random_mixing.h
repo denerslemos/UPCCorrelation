@@ -30,9 +30,9 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 
          if(nevt_trg == nevt_assoc) continue; // avoid same event
          if(ev_phpos[nevt_trg] != ev_phpos[nevt_assoc]) continue;
- 		 if(fabs(ev_multiplicity[nevt_trg] - ev_multiplicity[nevt_assoc]) > centrality_or_ntrkoff_int) continue;         
-         if(fabs(vtx_z_vec[nevt_trg]) > 8.0 && fabs(vtx_z_vec[nevt_trg]) < 10.0) vzcut = 2.0 * vzcut;
-         if(fabs(vtx_z_vec[nevt_trg]) > 10.0) vzcut = 5.0 * vzcut;
+ 	 if(fabs(ev_multiplicity[nevt_trg] - ev_multiplicity[nevt_assoc]) > centrality_or_ntrkoff_int) continue;         
+         if(fabs(vtx_z_vec[nevt_trg]) > 9.0 && fabs(vtx_z_vec[nevt_trg]) <= 12.0) vzcut = 2.0 * vzcut;
+         if(fabs(vtx_z_vec[nevt_trg]) > 12.0) vzcut = 5.0 * vzcut;
          if(fabs(vtx_z_vec[nevt_trg] - vtx_z_vec[nevt_assoc]) > vzcut) continue; // vz matching
 
          std::vector<ROOT::Math::PtEtaPhiMVector> Track_nevt_ass_vec = Track_Vector[nevt_assoc]; // track 4-vector for each associate event
