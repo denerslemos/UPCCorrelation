@@ -7,7 +7,6 @@
 --> Arguments
 input_file: text file with a list of root input files: Forest or Skims
 ouputfile: just a counting number to run on Condor
-isMC: 0 for false --> data and > 0 for true --> MC
 doquicktest: 0 for false and > 0 for true --> tests with 1000 events
 domixing: 0 with mixing and 1 without mixing
 Nmixevents: number of events to mix
@@ -15,25 +14,24 @@ mincentormult: minimum centrality of multiplicity in the mixing
 minvz: minimum vertez between events in the mixing
 hbt3d: 0 with 3D and 1 without 3D
 gamov: 0 means no GAMOV Coulomb correction and > 0 means GAMOV is added
-cent_bool: 0 to use centrality and different than 0 for multiplicity. For multiplicity we may need to change the bins in define_histograms.h
 syst:systematic uncertainties
 	--> 0: nominal
 	--> 1: |vz| < 3
 	--> 2: 3 < |vz| < 15
-	--> 3: tracking tight
-	--> 4: tracking loose
-	--> 5: centrality up
-	--> 6: centrality down
-	--> 7: removal of duplication cut
-	--> 8: removal of Npixel cut
-	--> 9: gamov + 15% weight
-	--> 10: gamov - 15% weight
-	--> 11: Number of mix events from 10 to 20
-	--> 12: Number of mix events from 10 to 5
-	--> 13: Number of vz separation btw events from 2cm to 3cm
-	--> 14: Number of vz separation btw events from 2cm to 1cm
-	--> 15: Number of multiplicity/centrality separation btw events from 5 to 10 units
-	--> 16: Number of multiplicity/centrality separation btw events from 5 to 3 units
+	--> 3: removal of duplication cut
+	--> 4: gamov + 15% weight
+	--> 5: gamov - 15% weight
+	--> 6: Number of mix events from 10 to 20
+	--> 7: Number of mix events from 10 to 5
+	--> 8: Number of vz separation btw events from 2cm to 3cm
+	--> 9: Number of vz separation btw events from 2cm to 1cm
+	--> 10: Move the min multiplicity separation from 5 to 10
+	--> 11: Move the min multiplicity separation from 5 to 3
+	--> 12: Use the HF coincidence using 4 GeV energy theshold
+	--> 13: Use the HF coincidence using 6 GeV energy theshold
+	--> 14: Use the HF coincidence using 8 GeV energy theshold
+	--> 15: Use the low PF particles thresholds
+	--> 16: Use the high PF particles thresholds
 */
 void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int domixing, int Nmixevents, int mincentormult, float minvz, int hbt3d, int gamov, int syst){
 
