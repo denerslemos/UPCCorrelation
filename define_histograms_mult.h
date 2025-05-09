@@ -53,6 +53,14 @@ TH2D *h_h0     = new TH2D( "h_h0",    "Neutral Hadrons; #eta; E_{T}", 1100, -5.5
 TH2D *h_HFhad  = new TH2D( "h_HFhad", "HF Hadronic; #eta; E", 1100, -5.5, 5.5, 500, 0, 50 );
 TH2D *h_HFem   = new TH2D( "h_HFem",  "HF Electromagnetic; #eta; E", 1100, -5.5, 5.5, 500, 0, 50 );
 
+// For gap info
+// Axis : 0 -> etagapplus, 1 -> etagapminus, 2 -> multiplicity , 3 -> ETSum, 4 -> itrigger, 5 -> photon side
+int    bins_gap[6]   =   { 60    ,  60   ,   250    ,  800 , 9    , 3 };
+double xmin_gap[6]   =   { 0.0   ,  0.0  ,   0.0    ,  0.0 , -0.5 , -1.5};
+double xmax_gap[6]   =   { 6.0  ,  6.0 ,   250.0  ,  400 , 8.5  , 1.5};
+// --> Reco
+THnSparseD *hist_gaps = new THnSparseD("hist_gaps", "hist_gaps", 6, bins_gap, xmin_gap, xmax_gap);
+
 // Track/Particle histograms
 // Axis : 0 -> track pT, 1 -> trk eta, 2 -> trk phi, 3 -> trk charge, 4 -> multiplicity bin, 5 -> photon side
 int	bins_trk[6]      =   { 200   ,  24  ,   30				      , 3   , nCentBins  			, 3 };
@@ -128,9 +136,10 @@ void sw2(){
 	h_e->Sumw2();
 	h_mu->Sumw2();
 	h_gamma->Sumw2();
-	h_h0 ->Sumw2();
+	h_h0->Sumw2();
 	h_HFhad->Sumw2();
-	h_HFem ->Sumw2();
+	h_HFem->Sumw2();
+	hist_gaps->Sumw2();
 
 	hist_reco_trk->Sumw2();
 	hist_qinv_SS->Sumw2();
@@ -217,6 +226,8 @@ void write_eventQA(){
 	h_h0 ->Write();
 	h_HFhad->Write();
 	h_HFem ->Write();
+	// Gaps
+	hist_gaps->Write();
 	// Tracks
 	hist_reco_trk->Write();
 }

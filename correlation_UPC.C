@@ -194,11 +194,35 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		Nevents->Fill(4);
 		double sumGapCut = 3.5;
         	if( Ntroff > 30 ) sumGapCut = 3.0;
-        	// can be also modified as systematics (if needed)
+
+                if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
+                if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
+                Nevents->Fill(5); // Multiplicity cut
+
+		const int NUM_TRIGS = 8;
+		string TRIG_STRINGS[ NUM_TRIGS ] =
+  			{ "HLT_HIUPC_ZDC1nXOR_MBHF1AND_PixelTrackMultiplicity20_v",        //0
+    			  "HLT_HIUPC_ZDC1nXOR_MBHF2AND_PixelTrackMultiplicity20_v",        //1
+    			  "HLT_HIUPC_ZDC1nAsymXOR_MBHF1AND_PixelTrackMultiplicity20_v",    //2
+    			  "HLT_HIUPC_ZDC1nAsymXOR_MBHF2AND_PixelTrackMultiplicity20_v",    //3
+    			  "HLT_HIUPC_ZDC1nOR_SinglePixelTrackLowPt_MaxPixelCluster400_v",  //4
+    			  "HLT_HIUPC_ZDC1nOR_MinPixelCluster400_MaxPixelCluster10000_v",   //5
+    			  "HLT_HIUPC_ZeroBias_SinglePixelTrackLowPt_MaxPixelCluster400_v", //6
+    			  "HLT_HIUPC_ZeroBias_MinPixelCluster400_MaxPixelCluster10000_v" };//7
+
+      		for( int iTrig = 0; iTrig < NUM_TRIGS - 2; iTrig++ ){
+      			bool firedTrigger = false;
+        		if( iTrig < 4 && triggers[ iTrig ] ) { firedTrigger = true; } else if( iTrig == 4 && (triggers[4] || triggers[5]) ){ firedTrigger = true; } else if( iTrig == 5 && (triggers[6] || triggers[7]) ) { firedTrigger = true; }
+        		if( !firedTrigger ) continue;
+			double x_gap[6]={etaGapPos,etaGapNeg,(double) Ntroff, ETSum,(double) iTrig, (double) posPhoton};
+			hist_gaps->Fill(x_gap);
+      		}
+
+		// can be also modified as systematics (if needed)
 		//cout << "posPhoton: "<< (int) posPhoton << endl;
      		if( posPhoton && etaGapPos < sumGapCut ) continue;
       		if( !posPhoton && etaGapNeg < sumGapCut ) continue;
-      		Nevents->Fill(5); // Multiplicity cut	
+      		Nevents->Fill(6); // Multiplicity cut	
 
 		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
 		if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
