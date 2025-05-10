@@ -5,7 +5,7 @@
 // qinv
 const int nQBins = 400;   // number of qinv bins
 const double minQ = 0.0;  // minimum qinv
-const double maxQ = 4.0;  // maximumm qinv
+const double maxQ = 2.0;  // maximumm qinv
 
 // q3D
 const int nQBins3D = 100;   // number of q3D bins
