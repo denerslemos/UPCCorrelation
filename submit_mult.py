@@ -10,6 +10,6 @@ pwdrepo = "/afs/cern.ch/work/d/ddesouza/UIC/SPRACE/CMSSW_13_0_5/src/UPCCorrelati
 systematics = 0
 inPut = 'PbPb_UPC_syst_'+str(systematics)
 
-os.system("mkdir -p cond")
+os.system("mkdir -p cond && rm -rf cond/*")
 os.system("mkdir -p "+str(outputfolder)+"/"+str(inPut))
 os.system("python3 HTCondor_submit_multiplicity.py -i inputdataset/PF_Run23_UPC_nonemptyfiles -o "+str(outputfolder)+"/"+str(inPut)+"/PbPb_UPC_syst"+str(systematics)+"_job_ -f tomorrow -c 2 -n 10 -s PbPb_UPC_syst"+str(systematics)+" -u "+str(systematics)+" -w "+str(cmsswrepo)+" -p "+str(pwdrepo))
