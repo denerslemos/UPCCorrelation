@@ -54,7 +54,6 @@ echo "Setup CMSSW (ROOT version)"
 cd """+cmsswDir+"""
 eval `scramv1 runtime -sh`
 cd """+pwdDir+"""
-mkdir -p cond
 echo "Submit skim jobs at "
 echo PWD: $PWD
 
