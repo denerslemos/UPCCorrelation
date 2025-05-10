@@ -39,7 +39,7 @@ Calculate q invariant
 p1: particle 1 4-vector
 p2: particle 2 4-vector
 */
-float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2, bool useqinv){
+float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2){
    bool useqinv = true;
    if(useqinv){
    	ROOT::Math::PtEtaPhiMVector Sum4V = p1+p2;
