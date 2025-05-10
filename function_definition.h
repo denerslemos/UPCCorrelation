@@ -20,18 +20,6 @@ bool splitcomb(ROOT::Math::PtEtaPhiMVector &vec1,ROOT::Math::PtEtaPhiMVector &ve
 }
 
 /*
-Calculate q invariant
---> Arguments
-p1: particle 1 4-vector
-p2: particle 2 4-vector
-*/
-float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2){
-   ROOT::Math::PtEtaPhiMVector Sum4V = p1+p2;
-   Double_t q = Sum4V.M2() - 4.0*p1.mass()*p2.mass();
-   return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );
-}
-
-/*
 Calculate q long in the LCMS
 --> Arguments
 p1: particle 1 4-vector
@@ -43,6 +31,24 @@ float GetQlongLCMS(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector 
    Double_t qlongLCMS = 0.0;
    if(den != 0) qlongLCMS = fabs(num/den);
    return qlongLCMS;
+}
+
+/*
+Calculate q invariant
+--> Arguments
+p1: particle 1 4-vector
+p2: particle 2 4-vector
+*/
+float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2, bool useqinv){
+   if(useqinv){
+   	ROOT::Math::PtEtaPhiMVector Sum4V = p1+p2;
+   	Double_t q = Sum4V.M2() - 4.0*p1.mass()*p2.mass();
+   	return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );
+   }else{
+	Double_t qlong = GetQlongLCMS(p1,p2);
+	Double_t q = (p1.Px()-p2.Px())*(p1.Px()-p2.Px()) + (p1.Py()-p2.Py())*(p1.Py()-p2.Py()) + qlong*qlong; 
+   	return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );	
+   }
 }
 
 /*
