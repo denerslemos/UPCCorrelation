@@ -3,9 +3,9 @@
 
 // define the bins
 // qinv
-const int nQBins = 400;   // number of qinv bins
+const int nQBins = 6000;   // number of qinv bins
 const double minQ = 0.0;  // minimum qinv
-const double maxQ = 2.0;  // maximumm qinv
+const double maxQ = 6.0;  // maximumm qinv
 
 // q3D
 const int nQBins3D = 100;   // number of q3D bins
@@ -72,7 +72,7 @@ THnSparseD *hist_reco_trk = new THnSparseD("hist_reco_trk", "hist_reco_trk", 6, 
 
 // HBT histograms for tests
 // Axis : 0 -> qinv, 1 -> kT, 2 -> multiplicity bin
-int	bins_qinv[4]      =   { nQBins , nKtBins  		   ,   nCentBins, 3};
+int	bins_qinv[4]  =   { nQBins , nKtBins  		   ,   nCentBins, 3};
 double xmin_qinv[4]   =   { minQ   , KtBins[0] 		   ,   CentBins[0], -1.5};
 double xmax_qinv[4]   =   { maxQ   , KtBins[nKtBins] ,   CentBins[nCentBins], 1.5};
 THnSparseD *hist_qinv_SS = new THnSparseD("hist_qinv_SS", "hist_qinv_SS", 4, bins_qinv, xmin_qinv, xmax_qinv);
