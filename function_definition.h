@@ -40,6 +40,7 @@ p1: particle 1 4-vector
 p2: particle 2 4-vector
 */
 float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2, bool useqinv){
+   bool useqinv = true;
    if(useqinv){
    	ROOT::Math::PtEtaPhiMVector Sum4V = p1+p2;
    	Double_t q = Sum4V.M2() - 4.0*p1.mass()*p2.mass();
