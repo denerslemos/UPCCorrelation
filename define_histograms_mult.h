@@ -13,8 +13,8 @@ const double minQ3D = 0.0;  // minimum q3D
 const double maxQ3D = 2.0;  // maximumm q3D
 
 //kT
-const int nKtBins = 9; // number of average transverse momentum bins
-double KtBins[nKtBins+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0}; 
+const int nKtBins = 11; // number of average transverse momentum bins
+double KtBins[nKtBins+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.5}; 
 
 // multiplicity
 //const int nCentBins = 5; // number of multiplicity bins
