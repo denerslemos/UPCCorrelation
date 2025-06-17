@@ -35,7 +35,7 @@ root -l -b -q "correlation_UPC.C(\"inputdataset/inputtestx.txt\", \"output\", 0,
 ```
 Test will run over ~27M events. Note that track efficiency correction is not added. Also track information is not available yet as well as other track informations. Also event filters must be checked/studies.
 
-If you wanna submit a condor job for the entire dataset, use
+If you wanna submit a condor job for the entire dataset (please edit [lines 7 to 9](https://github.com/denerslemos/UPCCorrelation/blob/main/submit_mult.py#L7-L9) ) in order , use
 ```
 python3 submit_mult.py
 ```
