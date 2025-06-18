@@ -3,9 +3,9 @@
 
 // define the bins
 // qinv
-const int nQBins = 6000;   // number of qinv bins
+const int nQBins = 1600;   // number of qinv bins
 const double minQ = 0.0;  // minimum qinv
-const double maxQ = 6.0;  // maximumm qinv
+const double maxQ = 8.0;  // maximumm qinv
 
 // q3D
 const int nQBins3D = 100;   // number of q3D bins
@@ -15,10 +15,6 @@ const double maxQ3D = 2.0;  // maximumm q3D
 //kT
 const int nKtBins = 11; // number of average transverse momentum bins
 double KtBins[nKtBins+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.5}; 
-
-// multiplicity
-//const int nCentBins = 5; // number of multiplicity bins
-//double CentBins[nCentBins+1] = {0.0, 20.0, 60.0, 100.0, 140.0, 200.0}; // 0-10%, 10-30%, 30-50%, 50-70%, 70-90% (0.5 in 0.5%)
 
 // multiplicity
 const int nCentBins = 11; // number of multiplicity bins
@@ -32,7 +28,7 @@ TH1D *multiplicity_beforecuts = new TH1D("multiplicity_beforecuts", "multiplicit
 TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 400, 0.0, 400.0);
 TH1D *multposplus = new TH1D("multposplus", "multposplus", 400, 0.0, 400.0);
 TH1D *multposminus = new TH1D("multposminus", "multposminus", 400, 0.0, 400.0);
-TH1I *NeventsAss = new TH1I("NeventsAss", "NeventsAss", 40, 0, 40);
+TH1I *NeventsAss = new TH1I("NeventsAss", "NeventsAss", 20, 0, 20);
 
 // ZDC
 TH1D *hZDCPlusZeroBias_beforecuts  = new TH1D( "hZDCPlusZeroBias_beforecuts",  "", 150, 0, 15000 );
@@ -71,7 +67,7 @@ THnSparseD *hist_reco_trk = new THnSparseD("hist_reco_trk", "hist_reco_trk", 6, 
 
 
 // HBT histograms for tests
-// Axis : 0 -> qinv, 1 -> kT, 2 -> multiplicity bin
+// Axis : 0 -> qinv, 1 -> kT, 2 -> multiplicity bin, 3 -> photon side
 int	bins_qinv[4]  =   { nQBins , nKtBins  		   ,   nCentBins, 3};
 double xmin_qinv[4]   =   { minQ   , KtBins[0] 		   ,   CentBins[0], -1.5};
 double xmax_qinv[4]   =   { maxQ   , KtBins[nKtBins] ,   CentBins[nCentBins], 1.5};
@@ -91,9 +87,25 @@ THnSparseD *hist_qinv_OS_gen = new THnSparseD("hist_qinv_OS_gen", "hist_qinv_OS_
 THnSparseD *hist_qinv_OS_gen_INV = new THnSparseD("hist_qinv_OS_gen_INV", "hist_qinv_OS_gen_INV", 4, bins_qinv, xmin_qinv, xmax_qinv);
 THnSparseD *hist_qinv_OS_gen_ROT = new THnSparseD("hist_qinv_OS_gen_ROT", "hist_qinv_OS_gen_ROT", 4, bins_qinv, xmin_qinv, xmax_qinv);
 THnSparseD *hist_qinv_OS_gen_MIX = new THnSparseD("hist_qinv_OS_gen_MIX", "hist_qinv_OS_gen_MIX", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS = new THnSparseD("hist_qlcms_SS", "hist_qlcms_SS", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_INV = new THnSparseD("hist_qlcms_SS_INV", "hist_qlcms_SS_INV", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_ROT = new THnSparseD("hist_qlcms_SS_ROT", "hist_qlcms_SS_ROT", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_MIX = new THnSparseD("hist_qlcms_SS_MIX", "hist_qlcms_SS_MIX", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS = new THnSparseD("hist_qlcms_OS", "hist_qlcms_OS", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_INV = new THnSparseD("hist_qlcms_OS_INV", "hist_qlcms_OS_INV", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_ROT = new THnSparseD("hist_qlcms_OS_ROT", "hist_qlcms_OS_ROT", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_MIX = new THnSparseD("hist_qlcms_OS_MIX", "hist_qlcms_OS_MIX", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_gen = new THnSparseD("hist_qlcms_SS_gen", "hist_qlcms_SS_gen", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_gen_INV = new THnSparseD("hist_qlcms_SS_gen_INV", "hist_qlcms_SS_gen_INV", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_gen_ROT = new THnSparseD("hist_qlcms_SS_gen_ROT", "hist_qlcms_SS_gen_ROT", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_SS_gen_MIX = new THnSparseD("hist_qlcms_SS_gen_MIX", "hist_qlcms_SS_gen_MIX", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_gen = new THnSparseD("hist_qlcms_OS_gen", "hist_qlcms_OS_gen", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_gen_INV = new THnSparseD("hist_qlcms_OS_gen_INV", "hist_qlcms_OS_gen_INV", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_gen_ROT = new THnSparseD("hist_qlcms_OS_gen_ROT", "hist_qlcms_OS_gen_ROT", 4, bins_qinv, xmin_qinv, xmax_qinv);
+THnSparseD *hist_qlcms_OS_gen_MIX = new THnSparseD("hist_qlcms_OS_gen_MIX", "hist_qlcms_OS_gen_MIX", 4, bins_qinv, xmin_qinv, xmax_qinv);
 
 // HBT histograms for tests
-// Axis : 0 -> qlong, 1 -> qout, 2 -> qside, 3 -> kT, 4 -> multiplicity bin
+// Axis : 0 -> qlong, 1 -> qout, 2 -> qside, 3 -> kT, 4 -> multiplicity bin, 5 -> photon side
 int	bins_q3D[6]      =   { nQBins3D, nQBins3D, nQBins3D,  nKtBins 		      , nCentBins            , 3};
 double xmin_q3D[6]   =   { minQ3D  , minQ3D  , minQ3D  ,  KtBins[0] 		  , CentBins[0]          , -1.5};
 double xmax_q3D[6]   =   { maxQ3D  , maxQ3D  , maxQ3D  ,  KtBins[nKtBins]     , CentBins[nCentBins]  , 1.5};
@@ -110,6 +122,9 @@ TH2D *hist_dpt_cos_SS = new TH2D("hist_dpt_cos_SS", "hist_dpt_cos_SS",1000, 0.99
 TH2D *hist_dpt_cos_OS = new TH2D("hist_dpt_cos_OS", "hist_dpt_cos_OS",1000, 0.99910, 1.0001, 100, 0, 0.25);
 TH1D *hist_pairSS_Mass = new TH1D("hist_pairSS_Mass", "Invariant mass same-sign tracks", 500, 0, 1.0);
 TH1D *hist_pairOS_Mass = new TH1D("hist_pairOS_Mass", "Invariant mass opposite-sign tracks", 500, 0, 1.0);
+TH2D *hist_detadphi_SS = new TH2D("hist_detadphi_SS", "hist_detadphi_SS",1000, 0.0, 0.1, 1000, 0, 0.1);
+TH2D *hist_detadphi_OS = new TH2D("hist_detadphi_OS", "hist_detadphi_OS",1000, 0.0, 0.1, 1000, 0, 0.1);
+
 
 void sw2(){
 
@@ -150,6 +165,14 @@ void sw2(){
 	hist_qinv_OS_INV->Sumw2();
 	hist_qinv_OS_ROT->Sumw2();
 	hist_qinv_OS_MIX->Sumw2();
+	hist_qlcms_SS->Sumw2();
+	hist_qlcms_SS_INV->Sumw2();
+	hist_qlcms_SS_ROT->Sumw2();
+	hist_qlcms_SS_MIX->Sumw2();
+	hist_qlcms_OS->Sumw2();
+	hist_qlcms_OS_INV->Sumw2();
+	hist_qlcms_OS_ROT->Sumw2();
+	hist_qlcms_OS_MIX->Sumw2();
 	hist_q3D_SS->Sumw2();
 	hist_q3D_SS_INV->Sumw2();
 	hist_q3D_SS_ROT->Sumw2();
@@ -160,6 +183,8 @@ void sw2(){
 	hist_q3D_OS_MIX->Sumw2();
 	hist_pairSS_Mass->Sumw2();
 	hist_pairOS_Mass->Sumw2();
+	hist_detadphi_SS->Sumw2();
+	hist_detadphi_OS->Sumw2();
 	
 	hist_reco_trk->GetAxis(4)->Set(bins_trk[4],CentBins);	
 	hist_qinv_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
@@ -178,6 +203,22 @@ void sw2(){
 	hist_qinv_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
 	hist_qinv_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
 	hist_qinv_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_SS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_SS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_SS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_OS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_OS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_OS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_OS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+	hist_qlcms_SS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_SS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_SS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_SS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_OS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+	hist_qlcms_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
 	hist_q3D_SS->GetAxis(3)->Set(bins_q3D[3],KtBins);
 	hist_q3D_SS_INV->GetAxis(3)->Set(bins_q3D[3],KtBins);
 	hist_q3D_SS_ROT->GetAxis(3)->Set(bins_q3D[3],KtBins);
@@ -241,10 +282,20 @@ void write_HBT1D(){
 	hist_qinv_OS_INV->Write();
 	hist_qinv_OS_ROT->Write();
 	hist_qinv_OS_MIX->Write();
+	hist_qlcms_SS->Write();
+	hist_qlcms_SS_INV->Write();
+	hist_qlcms_SS_ROT->Write();
+	hist_qlcms_SS_MIX->Write();
+	hist_qlcms_OS->Write();
+	hist_qlcms_OS_INV->Write();
+	hist_qlcms_OS_ROT->Write();
+	hist_qlcms_OS_MIX->Write();
 	hist_dpt_cos_SS->Write();
 	hist_dpt_cos_OS->Write();
 	hist_pairSS_Mass->Write();
 	hist_pairOS_Mass->Write();
+	hist_detadphi_SS->Write();
+	hist_detadphi_OS->Write();
 }
 
 void write_HBT3D(){

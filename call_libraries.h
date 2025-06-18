@@ -10,6 +10,7 @@
 #include "TH3.h"
 #include "TF1.h"
 #include "TVector3.h"
+#include "TVector2.h"
 #include <TRandom1.h>
 #include <TRandom2.h>
 #include <TRandom3.h>

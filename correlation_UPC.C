@@ -47,7 +47,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	if(syst == 4 || syst == 5) do_gamov = true;
 	
 	bool dosplit = false;
-	if(syst != 3) dosplit = true; 
+	//if(syst != 3) dosplit = true;
 	
 	TString systematics = "nonapplied_nominal";
 	if(syst == 0) systematics =  "nominal";
@@ -157,23 +157,23 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		} else{ if(fabs(vertexz) > 15.0) continue; }
 		Nevents->Fill(1); // Vertex Z cut	
 
-      		if( zdcSumPlus <= -50000 || zdcSumPlus > 300000 || zdcSumMinus <= -50000 || zdcSumMinus > 300000 ) continue; // clean up XZDC
-      		Nevents->Fill(2); // ZDC cut
-        	if( triggers[4] || triggers[5] ) { hZDCPlusZDCOr_beforecuts->Fill( zdcSumPlus ); hZDCMinusZDCOr_beforecuts->Fill( zdcSumMinus );}
-        	if( triggers[6] || triggers[7] ) { hZDCPlusZeroBias_beforecuts->Fill( zdcSumPlus ); hZDCMinusZeroBias_beforecuts->Fill( zdcSumMinus ); }
+		if( zdcSumPlus <= -50000 || zdcSumPlus > 300000 || zdcSumMinus <= -50000 || zdcSumMinus > 300000 ) continue; // clean up XZDC
+		Nevents->Fill(2); // ZDC cut
+		if( triggers[4] || triggers[5] ) { hZDCPlusZDCOr_beforecuts->Fill( zdcSumPlus ); hZDCMinusZDCOr_beforecuts->Fill( zdcSumMinus );}
+		if( triggers[6] || triggers[7] ) { hZDCPlusZeroBias_beforecuts->Fill( zdcSumPlus ); hZDCMinusZeroBias_beforecuts->Fill( zdcSumMinus ); }
 
 		float ZDC_MINUS_CUT = 1000;
 		float ZDC_PLUS_CUT = 1000;
 		//If needed for systematics we can add it here using the systematic flag , e.g.
 		//if( syst == XX ) {ZDC_MINUS_CUT = XXXX; ZDC_PLUS_CUT = XXXX;} 
 
-        	bool posPhoton;
-      		if( zdcSumMinus > ZDC_MINUS_CUT && zdcSumPlus < ZDC_PLUS_CUT ){ //photon traveling in + direction
-	      		posPhoton = true;
-      		} else if( zdcSumMinus < ZDC_MINUS_CUT && zdcSumPlus > ZDC_PLUS_CUT ){ //photon traveling in - direction
-        		posPhoton = false;
-        	} else { continue; }
-      		Nevents->Fill(3); // Photon travel side cuts
+		bool posPhoton;
+		if( zdcSumMinus > ZDC_MINUS_CUT && zdcSumPlus < ZDC_PLUS_CUT ){ //photon traveling in + direction
+			posPhoton = true;
+		} else if( zdcSumMinus < ZDC_MINUS_CUT && zdcSumPlus > ZDC_PLUS_CUT ){ //photon traveling in - direction
+			posPhoton = false;
+		} else { continue; }
+		Nevents->Fill(3); // Photon travel side cuts
 
 		// HF threshold
 		double HFThreshold = 0.0; // have to decide the nominal
@@ -182,20 +182,19 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		if(syst == 14 ) HFThreshold = 8.0;
 
 		//Find Eta Gaps
-        	double etaGapPos = 0;
-        	double etaGapNeg = 0;
-        	double ETSum = 0;
-        	int numNegHFClusters=0, numPosHFClusters=0;
+		double etaGapPos = 0;
+		double etaGapNeg = 0;
+		double ETSum = 0;
+		int numNegHFClusters=0, numPosHFClusters=0;
 		etagaps(syst, HFThreshold, ETSum, numNegHFClusters, numPosHFClusters, pfPt, pfEta, pfE, pfID, isPrimary, etaGapPos, etaGapNeg, h_h, h_e, h_mu, h_gamma, h_h0, h_HFhad, h_HFem, posPhoton);
 
 		if( HFThreshold > 0.0 && (numNegHFClusters < 1 || numPosHFClusters < 1) ) continue; // HF Coincidence
 		Nevents->Fill(4);
 		double sumGapCut = 3.5;
-        	if( Ntroff > 30 ) sumGapCut = 3.0;
-
-                if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
-                if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
-                Nevents->Fill(5); // Multiplicity cut
+		if( Ntroff > 30 ) sumGapCut = 3.0;
+		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
+		if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
+		Nevents->Fill(5); // Multiplicity cut
 
 		const int NUM_TRIGS = 8;
 		string TRIG_STRINGS[ NUM_TRIGS ] =
@@ -208,36 +207,36 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
     			  "HLT_HIUPC_ZeroBias_SinglePixelTrackLowPt_MaxPixelCluster400_v", //6
     			  "HLT_HIUPC_ZeroBias_MinPixelCluster400_MaxPixelCluster10000_v" };//7
 
-      		for( int iTrig = 0; iTrig < NUM_TRIGS - 2; iTrig++ ){
-      			bool firedTrigger = false;
-        		if( iTrig < 4 && triggers[ iTrig ] ) { firedTrigger = true; } else if( iTrig == 4 && (triggers[4] || triggers[5]) ){ firedTrigger = true; } else if( iTrig == 5 && (triggers[6] || triggers[7]) ) { firedTrigger = true; }
-        		if( !firedTrigger ) continue;
+		for( int iTrig = 0; iTrig < NUM_TRIGS - 2; iTrig++ ){
+			bool firedTrigger = false;
+			if( iTrig < 4 && triggers[ iTrig ] ) { firedTrigger = true; } else if( iTrig == 4 && (triggers[4] || triggers[5]) ){ firedTrigger = true; } else if( iTrig == 5 && (triggers[6] || triggers[7]) ) { firedTrigger = true; }
+			if( !firedTrigger ) continue;
 			double x_gap[6]={etaGapPos,etaGapNeg,(double) Ntroff, ETSum,(double) iTrig, (double) posPhoton};
 			hist_gaps->Fill(x_gap);
-      		}
+		}
 
 		// can be also modified as systematics (if needed)
 		//cout << "posPhoton: "<< (int) posPhoton << endl;
-     		if( posPhoton && etaGapPos < sumGapCut ) continue;
-      		if( !posPhoton && etaGapNeg < sumGapCut ) continue;
-      		Nevents->Fill(6); // Multiplicity cut	
+		if( posPhoton && etaGapPos < sumGapCut ) continue;
+		if( !posPhoton && etaGapNeg < sumGapCut ) continue;
+		Nevents->Fill(6); // Multiplicity cut
 
 		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
 		if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
-      		Nevents->Fill(6); // Multiplicity cut	
+		Nevents->Fill(6); // Multiplicity cut
       	
-        	if( Ntroff <= 20 && !triggers[4] && !triggers[5] ) continue;
-      		Nevents->Fill(7); // Multiplicity cut	
-        	if( Ntroff > 20 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
-       		Nevents->Fill(8); // Multiplicity cut	
+		if( Ntroff <= 20 && !triggers[4] && !triggers[5] ) continue;
+		Nevents->Fill(7); // Multiplicity cut
+		if( Ntroff > 20 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
+		Nevents->Fill(8); // Multiplicity cut
 
 		// Fill event histograms after all cuts
 		vzhist->Fill(vertexz);
 		multiplicity->Fill( Ntroff );
-        	if(posPhoton) multposplus->Fill( Ntroff ); 
-        	if(!posPhoton) multposminus->Fill( Ntroff ); 
-        	if( triggers[4] || triggers[5] ) { hZDCPlusZDCOr->Fill( zdcSumPlus ); hZDCMinusZDCOr->Fill( zdcSumMinus );}
-        	if( triggers[6] || triggers[7] ) { hZDCPlusZeroBias->Fill( zdcSumPlus ); hZDCMinusZeroBias->Fill( zdcSumMinus ); }	
+		if(posPhoton) multposplus->Fill( Ntroff );
+		if(!posPhoton) multposminus->Fill( Ntroff );
+		if( triggers[4] || triggers[5] ) { hZDCPlusZDCOr->Fill( zdcSumPlus ); hZDCMinusZDCOr->Fill( zdcSumMinus );}
+		if( triggers[6] || triggers[7] ) { hZDCPlusZeroBias->Fill( zdcSumPlus ); hZDCMinusZeroBias->Fill( zdcSumMinus ); }
 
 		// Vectors used for objects
 		std::vector<ROOT::Math::PtEtaPhiMVector> tracks_reco;
@@ -246,17 +245,17 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		
 		// ------------------- Reconstruction level (Data and MC) ----------------------------
 		// Start loop over reco tracks (trksize is number of reco tracks)
-	    	int numPF = pfID->size();
-    		if( numPF == 0 ) continue;
+		int numPF = pfID->size();
+		if( numPF == 0 ) continue;
 		for (int j = 0; j < numPF; j++){  // Loop over PF Candidates
 
- 	        	double trkEta = pfEta->at(j);
-     	        	//if( posPhoton ) trkEta = -trkEta;
- 	        	double trkPt = pfPt->at(j);
- 	        	double trkPhi = pfPhi->at(j);
- 	        	int trkCharge = 1; // for future usage 
+			double trkEta = pfEta->at(j);
+			//if( posPhoton ) trkEta = -trkEta; // not needed in our case
+			double trkPt = pfPt->at(j);
+			double trkPhi = pfPhi->at(j);
+			int trkCharge = 1; // for future usage
 
-		   	if( trkPt <= 0.0 ) continue; // remove negative and 0 pT tracks
+			if( trkPt <= 0.0 ) continue; // remove negative and 0 pT tracks
    		   	if( pfID->at(j) != 1 ) continue; // keep only charged hadrons
 		   	if( !isPrimary->at(j) ) continue; // remove non-primary tracks
 		   	if( fabs( trkEta ) > 2.4 ) continue; // tracker acceptance
@@ -271,12 +270,12 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 			// hist_reco_trk_corr->Fill(x_reco_trk,trk_weight);
 			
 			ROOT::Math::PtEtaPhiMVector TrackFourVector;
-      			TrackFourVector.SetM(pi_mass);
-      			TrackFourVector.SetEta(trkEta);
-     			TrackFourVector.SetPhi(trkPhi);
-     			TrackFourVector.SetPt(trkPt);  
+			TrackFourVector.SetM(pi_mass);
+			TrackFourVector.SetEta(trkEta);
+			TrackFourVector.SetPhi(trkPhi);
+			TrackFourVector.SetPt(trkPt);
      		
-     			tracks_reco.push_back(TrackFourVector);
+			tracks_reco.push_back(TrackFourVector);
 			track_charge_reco.push_back(trkCharge); 
 			track_weight_reco.push_back(trk_weight); 
 
@@ -284,7 +283,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		
 		if(tracks_reco.size() > 1){
 			Nevents->Fill(9); // filled after each event cut
-			twoparticlecorrelation(tracks_reco, track_charge_reco, track_weight_reco, hist_pairSS_Mass, hist_dpt_cos_SS, hist_qinv_SS, hist_qinv_SS_INV, hist_qinv_SS_ROT, hist_q3D_SS, hist_q3D_SS_INV, hist_q3D_SS_ROT, hist_pairOS_Mass, hist_dpt_cos_OS, hist_qinv_OS, hist_qinv_OS_INV, hist_qinv_OS_ROT, hist_q3D_OS, hist_q3D_OS_INV, hist_q3D_OS_ROT, Ntroff, (int) posPhoton, dosplit, do_hbt3d, do_gamov, syst); // HBT correlations done at this step
+			twoparticlecorrelation(tracks_reco, track_charge_reco, track_weight_reco, hist_pairSS_Mass, hist_dpt_cos_SS, hist_detadphi_SS, hist_qinv_SS, hist_qinv_SS_INV, hist_qinv_SS_ROT, hist_qlcms_SS, hist_qlcms_SS_INV, hist_qlcms_SS_ROT, hist_q3D_SS, hist_q3D_SS_INV, hist_q3D_SS_ROT, hist_pairOS_Mass, hist_dpt_cos_OS, hist_detadphi_OS, hist_qinv_OS, hist_qinv_OS_INV, hist_qinv_OS_ROT, hist_qlcms_OS, hist_qlcms_OS_INV, hist_qlcms_OS_ROT, hist_q3D_OS, hist_q3D_OS_INV, hist_q3D_OS_ROT, Ntroff, (int) posPhoton, dosplit, do_hbt3d, do_gamov, syst); // HBT correlations done at this step
 			track_4vector.push_back(tracks_reco); // save 4 vector for mixing
 			track_charge_vector.push_back(track_charge_reco); // save charge vector for mixing
 			track_weights_vector.push_back(track_weight_reco); // save eff weight vector for mixing
@@ -301,7 +300,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	
 	// do the mixing after the event selections
 	if(do_mixing) cout << "Time for mixing" << endl;
-	if(do_mixing) MixEvents(mincentormult, Nmixevents, multiplicity_vector, vz_vector, phpos_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
+	if(do_mixing) MixEvents(mincentormult, Nmixevents, multiplicity_vector, vz_vector, phpos_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_qlcms_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_qlcms_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
 	
 	// Output file name
 	cout << endl;

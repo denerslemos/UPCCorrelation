@@ -40,16 +40,21 @@ p1: particle 1 4-vector
 p2: particle 2 4-vector
 */
 float GetQ(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2){
-   bool useqinv = true;
-   if(useqinv){
    	ROOT::Math::PtEtaPhiMVector Sum4V = p1+p2;
    	Double_t q = Sum4V.M2() - 4.0*p1.mass()*p2.mass();
    	return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );
-   }else{
+}
+
+/*
+Calculate q invariant
+--> Arguments
+p1: particle 1 4-vector
+p2: particle 2 4-vector
+*/
+float GetQLCMS(ROOT::Math::PtEtaPhiMVector &p1, ROOT::Math::PtEtaPhiMVector &p2){
 	Double_t qlong = GetQlongLCMS(p1,p2);
-	Double_t q = (p1.Px()-p2.Px())*(p1.Px()-p2.Px()) + (p1.Py()-p2.Py())*(p1.Py()-p2.Py()) + qlong*qlong; 
-   	return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );	
-   }
+	Double_t q = (p1.Px()-p2.Px())*(p1.Px()-p2.Px()) + (p1.Py()-p2.Py())*(p1.Py()-p2.Py()) + qlong*qlong;
+   	return (  q > 0 ?  TMath::Sqrt(q) : -TMath::Sqrt(-q)  );
 }
 
 /*
@@ -248,7 +253,7 @@ tracks: vector with track informations
 tracks_charge: vector with track charge informations
 tracks_weight: vector with track efficiency informations
 */
-void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std::vector<int> tracks_charge, std::vector<double> tracks_weight, TH1D* pairmass_samesign, TH2D* costhetadpt_samesign, THnSparse* histo_2pcorr_samesign,  THnSparse* histo_2pcorr_samesign_inverted,  THnSparse* histo_2pcorr_samesign_rotated, THnSparse* histo_2pcorr_samesign3D,  THnSparse* histo_2pcorr_samesign3D_inverted,  THnSparse* histo_2pcorr_samesign3D_rotated, TH1D* pairmass_oppsign, TH2D* costhetadpt_oppsign, THnSparse* histo_2pcorr_oppsign, THnSparse* histo_2pcorr_oppsign_inverted, THnSparse* histo_2pcorr_oppsign_rotated, THnSparse* histo_2pcorr_oppsign3D, THnSparse* histo_2pcorr_oppsign3D_inverted, THnSparse* histo_2pcorr_oppsign3D_rotated, int cent, int posPhoton, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic){
+void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std::vector<int> tracks_charge, std::vector<double> tracks_weight, TH1D* pairmass_samesign, TH2D* costhetadpt_samesign, TH2D* dphideta_samesign, THnSparse* histo_2pcorr_samesign,  THnSparse* histo_2pcorr_samesign_inverted,  THnSparse* histo_2pcorr_samesign_rotated, THnSparse* histo_2pcorrlcms_samesign,  THnSparse* histo_2pcorrlcms_samesign_inverted,  THnSparse* histo_2pcorrlcms_samesign_rotated, THnSparse* histo_2pcorr_samesign3D,  THnSparse* histo_2pcorr_samesign3D_inverted,  THnSparse* histo_2pcorr_samesign3D_rotated, TH1D* pairmass_oppsign, TH2D* costhetadpt_oppsign, TH2D* dphideta_oppsign, THnSparse* histo_2pcorr_oppsign, THnSparse* histo_2pcorr_oppsign_inverted, THnSparse* histo_2pcorr_oppsign_rotated, THnSparse* histo_2pcorrlcms_oppsign,  THnSparse* histo_2pcorrlcms_oppsign_inverted,  THnSparse* histo_2pcorrlcms_oppsign_rotated, THnSparse* histo_2pcorr_oppsign3D, THnSparse* histo_2pcorr_oppsign3D_inverted, THnSparse* histo_2pcorr_oppsign3D_rotated, int cent, int posPhoton, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic){
 	// get correlation histograms
 	for (int ipair = 0; ipair < (tracks.size()*tracks.size()); ipair++){ // start loop over tracks
 	
@@ -279,6 +284,13 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		double x_2pc_hbt_inv[4]={qinv_inverted, kt_inverted, (double)cent, (double) posPhoton}; 
 		double x_2pc_hbt_rot[4]={qinv_rotated, kt_rotated, (double)cent, (double) posPhoton}; 
 
+		double qlcms = GetQ(tracks[a],tracks[b]);
+		double qlcms_inverted = GetQ(tracks[a], trackb_inverted);
+		double qlcms_rotated = GetQ(tracks[a], trackb_rotated);
+		double x_2pc_hbtlcms[4]={qlcms, kt, (double)cent, (double) posPhoton};
+		double x_2pc_hbtlcms_inv[4]={qlcms_inverted, kt_inverted, (double)cent, (double) posPhoton};
+		double x_2pc_hbtlcms_rot[4]={qlcms_rotated, kt_rotated, (double)cent, (double) posPhoton};
+
 		double qlong = GetQlongLCMS(tracks[a],tracks[b]);
 		double qlong_inverted = GetQlongLCMS(tracks[a], trackb_inverted);
 		double qlong_rotated = GetQlongLCMS(tracks[a], trackb_rotated);
@@ -299,7 +311,9 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 			coulomb_os = CoulombOS(qinv,systematic);		
 		}
 		
-		if(fabs(tracks[a].Eta() - tracks[b].Eta()) == 0 && fabs(tracks[a].Phi() - tracks[b].Phi()) == 0) continue;			
+		//if(fabs(tracks[a].Eta() - tracks[b].Eta()) == 0 && fabs(tracks[a].Phi() - tracks[b].Phi()) == 0) continue;
+		double deltaetaabs = fabs(tracks[a].Eta() - tracks[b].Eta());
+		double deltaphiabs = fabs(TVector2::Phi_mpi_pi(tracks[a].Phi() - tracks[b].Phi()));
 		double costheta = TMath::Abs(tracks[a].Px()*tracks[b].Px() + tracks[a].Py()*tracks[b].Py() + tracks[a].Pz()*tracks[b].Pz())/(tracks[a].P()*tracks[b].P());
    		double dpt = fabs(tracks[a].Pt() - tracks[b].Pt());
    		double pairmass = psum2.M();
@@ -307,9 +321,13 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		if(tracks_charge[a]*tracks_charge[b] > 0){
 			pairmass_samesign->Fill(pairmass,tot_eff);
 			costhetadpt_samesign->Fill(costheta,dpt,tot_eff);
+			dphideta_samesign->Fill(deltaetaabs, deltaphiabs);
 			histo_2pcorr_samesign->Fill(x_2pc_hbt,coulomb_ss*tot_eff);
 			histo_2pcorr_samesign_inverted->Fill(x_2pc_hbt_inv,coulomb_ss*tot_eff);
 			histo_2pcorr_samesign_rotated->Fill(x_2pc_hbt_rot,coulomb_ss*tot_eff);
+			histo_2pcorrlcms_samesign->Fill(x_2pc_hbtlcms,coulomb_ss*tot_eff);
+			histo_2pcorrlcms_samesign_inverted->Fill(x_2pc_hbtlcms_inv,coulomb_ss*tot_eff);
+			histo_2pcorrlcms_samesign_rotated->Fill(x_2pc_hbtlcms_rot,coulomb_ss*tot_eff);
 			if(do_hbt3d){
 				histo_2pcorr_samesign3D->Fill(x_2pc_hbt_3D,coulomb_ss*tot_eff);
 				histo_2pcorr_samesign3D_inverted->Fill(x_2pc_hbt_3D_inv,coulomb_ss*tot_eff);
@@ -318,9 +336,13 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		}else{
 			pairmass_oppsign->Fill(pairmass,tot_eff);
 			costhetadpt_oppsign->Fill(costheta,dpt,tot_eff);
+			dphideta_oppsign->Fill(deltaetaabs, deltaphiabs);
 			histo_2pcorr_oppsign->Fill(x_2pc_hbt,coulomb_os*tot_eff);			
 			histo_2pcorr_oppsign_inverted->Fill(x_2pc_hbt_inv,coulomb_os*tot_eff);			
 			histo_2pcorr_oppsign_rotated->Fill(x_2pc_hbt_rot,coulomb_os*tot_eff);			
+			histo_2pcorrlcms_oppsign->Fill(x_2pc_hbtlcms,coulomb_os*tot_eff);
+			histo_2pcorrlcms_oppsign_inverted->Fill(x_2pc_hbtlcms_inv,coulomb_os*tot_eff);
+			histo_2pcorrlcms_oppsign_rotated->Fill(x_2pc_hbtlcms_rot,coulomb_os*tot_eff);
 			if(do_hbt3d){
 				histo_2pcorr_oppsign3D->Fill(x_2pc_hbt_3D,coulomb_os*tot_eff);			
 				histo_2pcorr_oppsign3D_inverted->Fill(x_2pc_hbt_3D_inv,coulomb_os*tot_eff);			
