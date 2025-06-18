@@ -284,9 +284,9 @@ void twoparticlecorrelation(std::vector<ROOT::Math::PtEtaPhiMVector> tracks, std
 		double x_2pc_hbt_inv[4]={qinv_inverted, kt_inverted, (double)cent, (double) posPhoton}; 
 		double x_2pc_hbt_rot[4]={qinv_rotated, kt_rotated, (double)cent, (double) posPhoton}; 
 
-		double qlcms = GetQ(tracks[a],tracks[b]);
-		double qlcms_inverted = GetQ(tracks[a], trackb_inverted);
-		double qlcms_rotated = GetQ(tracks[a], trackb_rotated);
+		double qlcms = GetQLCMS(tracks[a],tracks[b]);
+		double qlcms_inverted = GetQLCMS(tracks[a], trackb_inverted);
+		double qlcms_rotated = GetQLCMS(tracks[a], trackb_rotated);
 		double x_2pc_hbtlcms[4]={qlcms, kt, (double)cent, (double) posPhoton};
 		double x_2pc_hbtlcms_inv[4]={qlcms_inverted, kt_inverted, (double)cent, (double) posPhoton};
 		double x_2pc_hbtlcms_rot[4]={qlcms_rotated, kt_rotated, (double)cent, (double) posPhoton};
