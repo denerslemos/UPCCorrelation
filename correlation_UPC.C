@@ -255,7 +255,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 			double trkPhi = pfPhi->at(j);
 			int trkCharge = 1; // for future usage
 
-			if( trkPt <= 0.0 ) continue; // remove negative and 0 pT tracks
+			if( trkPt <= 0.2 ) continue; // remove negative and 0 pT tracks
    		   	if( pfID->at(j) != 1 ) continue; // keep only charged hadrons
 		   	if( !isPrimary->at(j) ) continue; // remove non-primary tracks
 		   	if( fabs( trkEta ) > 2.4 ) continue; // tracker acceptance
