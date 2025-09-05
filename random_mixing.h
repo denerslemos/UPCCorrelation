@@ -6,8 +6,7 @@
 void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, double vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SSLCMS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OSLCMS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
 
 	int aux_n_evts = (int) vtx_z_vec.size(); // total number of events
-	int tenper = round(0.1*aux_n_evts);   
-
+	
 	cout << "Running ... " << endl;
 	cout << "Total # of events: " << aux_n_evts << endl; 
    
