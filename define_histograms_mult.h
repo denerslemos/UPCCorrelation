@@ -177,7 +177,7 @@ hist_q3D_OS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
 hist_q3D_OS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
 hist_q3D_OS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
 
-
+void sw2(){
 	// Event histograms
 Nevents->Sumw2();
 vzhist_beforecuts->Sumw2();
@@ -235,7 +235,7 @@ hist_pairSS_Mass->Sumw2();
 hist_pairOS_Mass->Sumw2();
 hist_detadphi_SS->Sumw2();
 hist_detadphi_OS->Sumw2();
-	
+}
 
 // histogram writting
 
