@@ -177,69 +177,65 @@ hist_q3D_OS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
 hist_q3D_OS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
 hist_q3D_OS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
 
-void sw2(){
 
 	// Event histograms
-	Nevents->Sumw2();
-	vzhist_beforecuts->Sumw2();
-	vzhist->Sumw2();
-	multiplicity_beforecuts->Sumw2();
-	multiplicity->Sumw2();
-	multposplus->Sumw2();
-	multposminus->Sumw2();
-	NeventsAss->Sumw2();
-	// ZDC
-	hZDCPlusZeroBias_beforecuts->Sumw2();
-	hZDCMinusZeroBias_beforecuts->Sumw2();
-	hZDCPlusZDCOr_beforecuts->Sumw2();
-	hZDCMinusZDCOr_beforecuts->Sumw2();
-	hZDCPlusZeroBias->Sumw2();
-	hZDCMinusZeroBias->Sumw2();
-	hZDCPlusZDCOr->Sumw2();
-	hZDCMinusZDCOr->Sumw2();
-	// PF Candidates
-	h_h->Sumw2();
-	h_e->Sumw2();
-	h_mu->Sumw2();
-	h_gamma->Sumw2();
-	h_h0->Sumw2();
-	h_HFhad->Sumw2();
-	h_HFem->Sumw2();
-	hist_gaps->Sumw2();
+Nevents->Sumw2();
+vzhist_beforecuts->Sumw2();
+vzhist->Sumw2();
+multiplicity_beforecuts->Sumw2();
+multiplicity->Sumw2();
+multposplus->Sumw2();
+multposminus->Sumw2();
+NeventsAss->Sumw2();
+// ZDC
+hZDCPlusZeroBias_beforecuts->Sumw2();
+hZDCMinusZeroBias_beforecuts->Sumw2();
+hZDCPlusZDCOr_beforecuts->Sumw2();
+hZDCMinusZDCOr_beforecuts->Sumw2();
+hZDCPlusZeroBias->Sumw2();
+hZDCMinusZeroBias->Sumw2();
+hZDCPlusZDCOr->Sumw2();
+hZDCMinusZDCOr->Sumw2();
+// PF Candidates
+h_h->Sumw2();
+h_e->Sumw2();
+h_mu->Sumw2();
+h_gamma->Sumw2();
+h_h0->Sumw2();
+h_HFhad->Sumw2();
+h_HFem->Sumw2();
+hist_gaps->Sumw2();
 
-	hist_reco_trk->Sumw2();
-	hist_qinv_SS->Sumw2();
-	hist_qinv_SS_INV->Sumw2();
-	hist_qinv_SS_ROT->Sumw2();
-	hist_qinv_SS_MIX->Sumw2();
-	hist_qinv_OS->Sumw2();
-	hist_qinv_OS_INV->Sumw2();
-	hist_qinv_OS_ROT->Sumw2();
-	hist_qinv_OS_MIX->Sumw2();
-	hist_qlcms_SS->Sumw2();
-	hist_qlcms_SS_INV->Sumw2();
-	hist_qlcms_SS_ROT->Sumw2();
-	hist_qlcms_SS_MIX->Sumw2();
-	hist_qlcms_OS->Sumw2();
-	hist_qlcms_OS_INV->Sumw2();
-	hist_qlcms_OS_ROT->Sumw2();
-	hist_qlcms_OS_MIX->Sumw2();
-	hist_q3D_SS->Sumw2();
-	hist_q3D_SS_INV->Sumw2();
-	hist_q3D_SS_ROT->Sumw2();
-	hist_q3D_SS_MIX->Sumw2();
-	hist_q3D_OS->Sumw2();
-	hist_q3D_OS_INV->Sumw2();
-	hist_q3D_OS_ROT->Sumw2();
-	hist_q3D_OS_MIX->Sumw2();
-	hist_pairSS_Mass->Sumw2();
-	hist_pairOS_Mass->Sumw2();
-	hist_detadphi_SS->Sumw2();
-	hist_detadphi_OS->Sumw2();
+hist_reco_trk->Sumw2();
+hist_qinv_SS->Sumw2();
+hist_qinv_SS_INV->Sumw2();
+hist_qinv_SS_ROT->Sumw2();
+hist_qinv_SS_MIX->Sumw2();
+hist_qinv_OS->Sumw2();
+hist_qinv_OS_INV->Sumw2();
+hist_qinv_OS_ROT->Sumw2();
+hist_qinv_OS_MIX->Sumw2();
+hist_qlcms_SS->Sumw2();
+hist_qlcms_SS_INV->Sumw2();
+hist_qlcms_SS_ROT->Sumw2();
+hist_qlcms_SS_MIX->Sumw2();
+hist_qlcms_OS->Sumw2();
+hist_qlcms_OS_INV->Sumw2();
+hist_qlcms_OS_ROT->Sumw2();
+hist_qlcms_OS_MIX->Sumw2();
+hist_q3D_SS->Sumw2();
+hist_q3D_SS_INV->Sumw2();
+hist_q3D_SS_ROT->Sumw2();
+hist_q3D_SS_MIX->Sumw2();
+hist_q3D_OS->Sumw2();
+hist_q3D_OS_INV->Sumw2();
+hist_q3D_OS_ROT->Sumw2();
+hist_q3D_OS_MIX->Sumw2();
+hist_pairSS_Mass->Sumw2();
+hist_pairOS_Mass->Sumw2();
+hist_detadphi_SS->Sumw2();
+hist_detadphi_OS->Sumw2();
 	
-
-
-}
 
 // histogram writting
 
