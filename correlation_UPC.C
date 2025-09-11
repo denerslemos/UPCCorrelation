@@ -116,7 +116,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	read_tree(hea_tree); // access the tree informations
 	
     // Use sumw2() to make sure about histogram uncertainties in ROOT
-	// sw2(); 
+	 sw2(); 
 
 	int nevents = hea_tree->GetEntries(); // number of events
 	cout << endl;
