@@ -17,8 +17,10 @@ const int nKtBins = 11; // number of average transverse momentum bins
 double KtBins[nKtBins+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.5}; 
 
 // multiplicity
-const int nCentBins = 11; // number of multiplicity bins
-double CentBins[nCentBins+1] = {0.0, 5.0, 10.0, 20.0, 30.0, 40.0, 50.0, 70.0, 100.0, 150.0, 200.0, 250.0};  // multiplicity bins to match PbPb
+//const int nCentBins = 11; // number of multiplicity bins
+//double CentBins[nCentBins+1] = {0.0, 5.0, 10.0, 20.0, 30.0, 40.0, 50.0, 70.0, 100.0, 150.0, 200.0, 250.0};  // multiplicity bins to match PbPb
+const int nCentBins = 6; // number of multiplicity bins
+double CentBins[nCentBins+1] = {0.0, 5.0, 10.0, 15.0, 25.0, 35.0, 100.0};  // multiplicity bins to match PbPb
 
 // Event histograms
 TH1I *Nevents = new TH1I("Nevents", "Nevents", 10, 0, 10);
@@ -125,6 +127,55 @@ TH1D *hist_pairOS_Mass = new TH1D("hist_pairOS_Mass", "Invariant mass opposite-s
 TH2D *hist_detadphi_SS = new TH2D("hist_detadphi_SS", "hist_detadphi_SS",1000, 0.0, 0.1, 1000, 0, 0.1);
 TH2D *hist_detadphi_OS = new TH2D("hist_detadphi_OS", "hist_detadphi_OS",1000, 0.0, 0.1, 1000, 0, 0.1);
 
+hist_reco_trk->GetAxis(4)->Set(bins_trk[4],CentBins);	
+hist_qinv_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_SS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_SS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_SS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_OS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_OS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_OS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_OS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qinv_SS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_SS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_SS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_SS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_OS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qinv_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_SS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_SS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_SS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_OS->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_OS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_OS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_OS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
+hist_qlcms_SS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_SS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_SS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_SS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_OS->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_qlcms_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
+hist_q3D_SS->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_SS_INV->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_SS_ROT->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_SS_MIX->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_OS->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_OS_INV->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_OS_ROT->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_OS_MIX->GetAxis(3)->Set(bins_q3D[3],KtBins);
+hist_q3D_SS->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_SS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_SS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_SS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_OS->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_OS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_OS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
+hist_q3D_OS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
 
 void sw2(){
 
@@ -186,55 +237,7 @@ void sw2(){
 	hist_detadphi_SS->Sumw2();
 	hist_detadphi_OS->Sumw2();
 	
-	hist_reco_trk->GetAxis(4)->Set(bins_trk[4],CentBins);	
-	hist_qinv_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_SS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_SS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_SS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_OS->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_OS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_OS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_OS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qinv_SS->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_SS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_SS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_SS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_OS->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qinv_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_SS->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_SS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_SS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_SS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_OS->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_OS_INV->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_OS_ROT->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_OS_MIX->GetAxis(1)->Set(bins_qinv[1],KtBins);
-	hist_qlcms_SS->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_SS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_SS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_SS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_OS->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_OS_INV->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_OS_ROT->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_qlcms_OS_MIX->GetAxis(2)->Set(bins_qinv[2],CentBins);
-	hist_q3D_SS->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_SS_INV->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_SS_ROT->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_SS_MIX->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_OS->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_OS_INV->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_OS_ROT->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_OS_MIX->GetAxis(3)->Set(bins_q3D[3],KtBins);
-	hist_q3D_SS->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_SS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_SS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_SS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_OS->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_OS_INV->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_OS_ROT->GetAxis(4)->Set(bins_q3D[4],CentBins);
-	hist_q3D_OS_MIX->GetAxis(4)->Set(bins_q3D[4],CentBins);
+
 
 }
 
