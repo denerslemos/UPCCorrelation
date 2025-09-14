@@ -117,9 +117,9 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	
     // Use sumw2() to make sure about histogram uncertainties in ROOT
 	const int nKtBinsF = 11; // number of average transverse momentum bins 
-	double KtBinsF[nKtBinsF+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.5}; 
+	const double KtBinsF[nKtBinsF+1] = {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.5}; 
 	const int nCentBinsF = 6; // number of multiplicity bins 
-	double CentBinsF[nCentBinsF+1] = {0.0, 5.0, 10.0, 15.0, 25.0, 35.0, 100.0};
+	const double CentBinsF[nCentBinsF+1] = {0.0, 5.0, 10.0, 15.0, 25.0, 35.0, 100.0};
 	sw2(KtBinsF,CentBinsF); 
 
 	int nevents = hea_tree->GetEntries(); // number of events
