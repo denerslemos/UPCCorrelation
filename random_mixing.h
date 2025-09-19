@@ -23,7 +23,8 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 		int mult_trg = ev_multiplicity[nevt_trg];
 		int ev_phside = ev_phpos[nevt_trg];
 		double vz_trg = vtx_z_vec[nevt_trg];
-		
+		if(fabs(vz_trg) > 7.0 && fabs(vz_trg) < 10.0) vzcut = 2.0 * vzcut;
+        if(fabs(vz_trg) > 10.0) vzcut = 5.0 * vzcut;
 		// Build list of candidate events with similar multiplicity
 		std::vector<int> assocCandidates;
 		for (int iev = 0; iev < aux_n_evts; iev++) {
