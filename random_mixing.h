@@ -1,11 +1,15 @@
+#pragma once
 #include "call_libraries.h"  // call libraries from ROOT and C++
 #include "function_definition.h" // function definition
+#include <algorithm>
+#include <iostream>
+#include <random>
 #define coscutmix 0.99996
 #define dptcutmix 0.04
 
 void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, double vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SSLCMS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OSLCMS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
 
-	int aux_n_evts = (int) vtx_z_vec.size(); // total number of events
+    const int aux_n_evts = static_cast<int>(vtx_z_vec.size());
 	
 	cout << "Running ... " << endl;
 	cout << "Total # of events: " << aux_n_evts << endl; 
@@ -18,18 +22,26 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 		auto& Trk_nevt_trg_vec = Track_Vector[nevt_trg]; // track 4-vector for each trigger event
 		auto& Trk_chg_nevt_trg_vec = Track_Chg_Vector[nevt_trg]; // track charge vector for each trigger event
 		auto& Trk_eff_nevt_trg_vec = Track_Eff_Vector[nevt_trg]; // track efficiency vector for each trigger event
-		int nMix_nevt_trg = Trk_nevt_trg_vec.size(); // track vector size for triggers
+		const int nMix_nevt_trg = static_cast<int>(Trk_nevt_trg_vec.size());
 		if (nMix_nevt_trg == 0) continue;
 		int mult_trg = ev_multiplicity[nevt_trg];
 		int ev_phside = ev_phpos[nevt_trg];
 		double vz_trg = vtx_z_vec[nevt_trg];
-		if(fabs(vz_trg) > 7.0 && fabs(vz_trg) < 10.0) vzcut = 2.0 * vzcut;
-        if(fabs(vz_trg) > 10.0) vzcut = 5.0 * vzcut;
+        // do not modify original vzcut; use a local copy
+        double vzcut_local = vzcut;
+        if (std::fabs(vz_trg) > 7.0 && std::fabs(vz_trg) < 10.0) vzcut_local = 2.0 * vzcut_local;
+        if (std::fabs(vz_trg) > 10.0) vzcut_local = 5.0 * vzcut_local;
 		// Build list of candidate events with similar multiplicity
 		std::vector<int> assocCandidates;
+		int totalevents = 0;
 		for (int iev = 0; iev < aux_n_evts; iev++) {
 			if (iev == nevt_trg) continue;
-			if ( (fabs(ev_multiplicity[iev] - mult_trg) <= centrality_or_ntrkoff_int) && (fabs(vtx_z_vec[nevt_trg] - vz_trg) <= vzcut ) && (ev_phpos[iev] == ev_phside) ) assocCandidates.push_back(iev);
+			if ( fabs(ev_multiplicity[iev] - mult_trg) > centrality_or_ntrkoff_int ) continue; 
+		    if ( fabs(vtx_z_vec[iev] - vz_trg) > vzcut_local ) continue;
+			if ( ev_phpos[iev] != ev_phside) ) continue;
+			totalevents = totalevents + 1;
+			if( totalevents > int(1000 * nEvt_to_mix) ) break;
+			assocCandidates.push_back(iev);
 		}
 		// If no candidates, skip
 		if (assocCandidates.empty()) continue;
