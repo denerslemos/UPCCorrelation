@@ -197,7 +197,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		double sumGapCut = 3.5;
 		if( Ntroff > 30 ) sumGapCut = 3.0;
 		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
-		if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
+		if( Ntroff > 100 ) continue; // remove events with multiplicity > 250
 		Nevents->Fill(5); // Multiplicity cut
 
 		const int NUM_TRIGS = 8;
