@@ -231,6 +231,15 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		if( Ntroff > 15 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
 		Nevents->Fill(8); // Multiplicity cut
 
+		if( Ntroff <= 15 && triggers[0] ) trigger_vector.push_back(0);
+		if( Ntroff <= 15 && triggers[1] ) trigger_vector.push_back(1);
+		if( Ntroff <= 15 && triggers[2] ) trigger_vector.push_back(2);
+		if( Ntroff <= 15 && triggers[3] ) trigger_vector.push_back(3);
+		if( Ntroff > 15 && triggers[4] ) trigger_vector.push_back(4);
+		if( Ntroff > 15 && triggers[5] ) trigger_vector.push_back(5);
+		if( Ntroff > 15 && triggers[6] ) trigger_vector.push_back(6);
+		if( Ntroff > 15 && triggers[7] ) trigger_vector.push_back(7);
+
 		// Fill event histograms after all cuts
 		vzhist->Fill(vertexz);
 		multiplicity->Fill( Ntroff );
@@ -301,7 +310,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	
 	// do the mixing after the event selections
 	if(do_mixing) cout << "Time for mixing" << endl;
-	if(do_mixing) MixEvents(mincentormult, Nmixevents, multiplicity_vector, vz_vector, phpos_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_qlcms_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_qlcms_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
+	if(do_mixing) MixEvents(mincentormult, Nmixevents, multiplicity_vector, vz_vector, phpos_vector, trigger_vector, minvz, track_4vector, track_charge_vector, track_weights_vector, hist_qinv_SS_MIX, hist_qlcms_SS_MIX, hist_q3D_SS_MIX, hist_qinv_OS_MIX, hist_qlcms_OS_MIX, hist_q3D_OS_MIX, dosplit, do_hbt3d, do_gamov, syst, NeventsAss);
 	
 	// Output file name
 	cout << endl;
