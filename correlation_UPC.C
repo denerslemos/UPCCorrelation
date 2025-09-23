@@ -135,6 +135,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 	std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> track_4vector;
 	std::vector<std::vector<double>> track_weights_vector;
 	std::vector<std::vector<int>> track_charge_vector;
+	std::vector<int> trigger_vector;
 
 
 	double nev = (double)nevents;
