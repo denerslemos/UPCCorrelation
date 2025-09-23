@@ -40,7 +40,7 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 		    if ( fabs(vtx_z_vec[iev] - vz_trg) > vzcut_local ) continue;
 			if ( ev_phpos[iev] != ev_phside ) continue;
 			totalevents = totalevents + 1;
-			if( totalevents > int(1000 * nEvt_to_mix) ) break;
+			if( totalevents > int(100 * nEvt_to_mix) ) break;
 			assocCandidates.push_back(iev);
 		}
 		// If no candidates, skip
