@@ -7,7 +7,7 @@
 #define coscutmix 0.99996
 #define dptcutmix 0.04
 
-void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, double vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SSLCMS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OSLCMS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
+void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_multiplicity, std::vector<double> vtx_z_vec, std::vector<int> ev_phpos, std::vector<int> ev_trg, double vzcut, std::vector<std::vector<ROOT::Math::PtEtaPhiMVector>> Track_Vector, std::vector<std::vector<int>> Track_Chg_Vector, std::vector<std::vector<double>> Track_Eff_Vector, THnSparseD *histo_SS, THnSparseD *histo_SSLCMS, THnSparseD *histo_SS3D, THnSparseD *histo_OS, THnSparseD *histo_OSLCMS, THnSparseD *histo_OS3D, bool docostdptcut, bool do_hbt3d, bool dogamovcorrection, int systematic, TH1I* NeventsAss){
 
     const int aux_n_evts = static_cast<int>(vtx_z_vec.size());
 	
@@ -27,6 +27,7 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 		int mult_trg = ev_multiplicity[nevt_trg];
 		int ev_phside = ev_phpos[nevt_trg];
 		double vz_trg = vtx_z_vec[nevt_trg];
+		int ev_trigger = ev_trg[nevt_trg]
         // do not modify original vzcut; use a local copy
         double vzcut_local = vzcut;
         if (std::fabs(vz_trg) > 7.0 && std::fabs(vz_trg) < 10.0) vzcut_local = 2.0 * vzcut_local;
@@ -39,6 +40,8 @@ void MixEvents(int centrality_or_ntrkoff_int, int nEvt_to_mix, std::vector<int> 
 			if ( fabs(ev_multiplicity[iev] - mult_trg) > centrality_or_ntrkoff_int ) continue; 
 		    if ( fabs(vtx_z_vec[iev] - vz_trg) > vzcut_local ) continue;
 			if ( ev_phpos[iev] != ev_phside ) continue;
+			if ( ev_trg[iev] != ev_trigger ) continue;
+			
 			totalevents = totalevents + 1;
 			if( totalevents > int(100 * nEvt_to_mix) ) break;
 			assocCandidates.push_back(iev);
