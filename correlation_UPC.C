@@ -231,14 +231,14 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		if( Ntroff > 15 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
 		Nevents->Fill(8); // Multiplicity cut
 
-		if( Ntroff <= 15 && triggers[0] ) trigger_vector.push_back(0);
-		if( Ntroff <= 15 && triggers[1] ) trigger_vector.push_back(1);
-		if( Ntroff <= 15 && triggers[2] ) trigger_vector.push_back(2);
-		if( Ntroff <= 15 && triggers[3] ) trigger_vector.push_back(3);
-		if( Ntroff > 15 && triggers[4] ) trigger_vector.push_back(4);
-		if( Ntroff > 15 && triggers[5] ) trigger_vector.push_back(5);
-		if( Ntroff > 15 && triggers[6] ) trigger_vector.push_back(6);
-		if( Ntroff > 15 && triggers[7] ) trigger_vector.push_back(7);
+		if ( triggers[7] ) { trigger_vector.push_back(7); }
+		else if ( triggers[6] )  { trigger_vector.push_back(6); }
+		else if ( Ntroff <= 15 && triggers[0] ) { trigger_vector.push_back(0); }
+		else if ( Ntroff <= 15 && triggers[1] ) trigger_vector.push_back(1); }
+		else if ( Ntroff <= 15 && triggers[2] ) trigger_vector.push_back(2); }
+		else if ( Ntroff <= 15 && triggers[3] ) trigger_vector.push_back(3); }
+		else if ( Ntroff > 15 && triggers[4] ) trigger_vector.push_back(4); }
+		else if ( Ntroff > 15 && triggers[5] ) trigger_vector.push_back(5); }
 
 		// Fill event histograms after all cuts
 		vzhist->Fill(vertexz);
