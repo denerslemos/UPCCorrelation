@@ -195,7 +195,7 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		if( HFThreshold > 0.0 && (numNegHFClusters < 1 || numPosHFClusters < 1) ) continue; // HF Coincidence
 		Nevents->Fill(4);
 		double sumGapCut = 3.5;
-		if( Ntroff > 30 ) sumGapCut = 3.0;
+		if( Ntroff > 30 ) sumGapCut = 2.8;
 		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
 		if( Ntroff > 100 ) continue; // remove events with multiplicity > 250
 		Nevents->Fill(5); // Multiplicity cut
@@ -226,12 +226,12 @@ void correlation_UPC(TString input_file, TString ouputfile, int doquicktest, int
 		Nevents->Fill(6); // Multiplicity cut
 
 		if( Ntroff < 0 ) continue; // remove events with multiplicity < 0
-		if( Ntroff > 250 ) continue; // remove events with multiplicity > 250
+		if( Ntroff > 100 ) continue; // remove events with multiplicity > 100
 		Nevents->Fill(6); // Multiplicity cut
       	
-		if( Ntroff <= 20 && !triggers[4] && !triggers[5] ) continue;
+		if( Ntroff <= 15 && !triggers[4] && !triggers[5] ) continue;
 		Nevents->Fill(7); // Multiplicity cut
-		if( Ntroff > 20 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
+		if( Ntroff > 15 && !triggers[0] && !triggers[1] && !triggers[2] && !triggers[3] ) continue;
 		Nevents->Fill(8); // Multiplicity cut
 
 		// Fill event histograms after all cuts
